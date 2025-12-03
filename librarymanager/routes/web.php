@@ -17,13 +17,21 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/books', [BookListController::class, 'index'])->name('books.index');
 
 
-Route::get('/books/create', [BookController::class, 'index'])->name('books.index');
+Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
 
-Route::get('/books/create', function () {
-    return 'Create Form kommt später';
-})->name('books.create');
+Route::post('/books', [BookListController::class, 'store'])
+    ->name('books.store');
 
+Route::get('/books/{book}', [BookListController::class, 'show'])
+    ->name('books.show');
 
-//use App\Http\Controllers\PhotoController;
- 
-//Route::resource('photos', PhotoController::class);
+Route::get('/books/{book}/edit', [BookListController::class, 'edit'])
+    ->name('books.edit');
+
+Route::put('/students/{book}', [BookListController::class, 'update'])
+    ->name('books.update');
+
+Route::delete('/books/{book}', [BookListController::class, 'destroy'])
+    ->name('books.destroy');
+
+Route::resource('books', BookController::class);

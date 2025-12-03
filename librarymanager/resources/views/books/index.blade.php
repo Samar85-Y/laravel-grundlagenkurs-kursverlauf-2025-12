@@ -6,7 +6,9 @@
 
 <h2>Bücherliste</h2>
 <p><a href="{{ route('books.create') }}">Neuen Buch anlegen</a></p>
+
 @if($books->isEmpty())
+
     <p>Es sind noch keine Buch vorhanden.</p>
     @else
     
@@ -19,6 +21,7 @@
             <th>isbn</th>
             <th>published_year</th>
             <th>category</th>
+            <th>Aktion</th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +33,15 @@
             <td>{{ $b->isbn }}</td>
             <td>{{ $b->published_year }}</td>
             <td>{{ $b->category ?? '-' }}</td>
+            <td>
+                <a href="/books/{{ $b->id }}/edit">Bearbeiten</a>
+                    <form action="/books/{{ $b->id }}" method="post">
+                         @csrf
+                         @method('DELETE')
+                            <input type="hidden" name="book" value="{{ $b->id }}">
+                            <button type="submit">Löschen</button>
+                    </form>
+            </td>
         </tr>
         @endforeach
 
