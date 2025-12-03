@@ -23,10 +23,10 @@ return new class extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             $table->string('title')->nullable();
-        $table->string('author')->nullable();
-        $table->string('isbn')->nullable();
-        $table->year('published_year')->nullable();
-        $table->string('category')->nullable();
-    });
+            $table->string('author')->nullable();
+            $table->string('isbn')->nullable();
+            $table->year('published_year')->nullable();
+            $table->string('category')->nullable();
+        });
     }
 };

@@ -19,10 +19,19 @@ class BookSeeder extends Seeder
             'title'=> 'PHP Grundlagen',
             'author' => 'Christian Wenz, Tobias Hauser',
             'isbn' => '978-3-367-10000-2',
-            'published_year' =>21,
-            'category' =>'MAT-' . Str::upper(Str::random(6)),
+            'published_year' =>1990,
+            'category' => 'Web Development'
 
         ]);
+
+        Book::create([
+            'title' => 'Der Hobbit',
+            'author' => 'J.R.R. Tolkien',
+            'isbn' => '978-3-551-55555-5',
+            'published_year' => 1937,
+            'category' => 'Fantasy'
+]);
+
 
         Book::factory()->count(5)->create();
     }
