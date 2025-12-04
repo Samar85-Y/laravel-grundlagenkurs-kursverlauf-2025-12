@@ -39,7 +39,7 @@ class BookController extends Controller
         ]);
     }
     
-    public function update( Request $request , Student $student ){
+    public function update( Request $request , Book $book ){
         $data = $request->validate([
             'title' => ['required', 'string', 'min:3'],
             'author' =>['required', 'string', 'min:3' ],
