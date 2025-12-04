@@ -6,6 +6,8 @@
 
     <h2>Studentenliste</h2>
 
+    <x-flash />
+
     <p><a href="{{ route('students.create') }}">Neuen Studenten anlegen</a></p>
 
     @if($students->isEmpty())
@@ -15,8 +17,8 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
+                    <th>Vor- und Nachname</th>
+                    <th>Hauptkurs</th>
                     <th>Email</th>
                     <th>Aktion</th>
                 </tr>
@@ -25,16 +27,20 @@
                 @foreach ($students as $s)
                     <tr>
                         <td>{{ $s->id }}</td>
-                        <td>{{ $s->firstname }}</td>
-                        <td>{{ $s->lastname }}</td>
+                        <td>{{ $s->firstname }} {{ $s->lastname }}</td>
+                        <td>
+                            <span class="badge">{{ $s->mainCourse?->shortname }}</span>
+                        </td>
                         <td>{{ $s->email }}</td>
                         <td>
-                            <a href="/students/{{ $s->id }}/edit">Bearbeiten</a>
+                            <p>
+                                <a class="btn btn-primary" href="/students/{{ $s->id }}">Anzeigen</a>
+                                <a class="btn btn-primary" href="/students/{{ $s->id }}/edit">Bearbeiten</a>
+                            </p>
                             <form action="/students/{{ $s->id }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <input type="hidden" name="student" value="{{ $s->id }}">
-                                <button type="submit">Löschen</button>
+                                <button class="btn btn-danger" type="submit">Löschen</button>
                             </form>
                         </td>
                     </tr>

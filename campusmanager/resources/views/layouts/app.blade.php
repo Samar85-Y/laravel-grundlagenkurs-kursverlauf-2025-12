@@ -19,6 +19,7 @@
             <a href="{{ route('home') }}">Start</a>
             <a href="{{ route('students.index') }}">Studenten</a>
             <a href="{{ route('about') }}">Über uns</a>
+            <a href="{{ route('students.filter')}}">Filter</a>
         </nav>
     </header>
 

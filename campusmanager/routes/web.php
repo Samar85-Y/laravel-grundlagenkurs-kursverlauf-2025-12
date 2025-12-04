@@ -38,6 +38,9 @@ Route::put('/students/{student}', [StudentsController::class, 'update'])
 Route::delete('/students/{student}', [StudentsController::class, 'destroy'])
     ->name('students.destroy');
 
+Route::get('/filter', [StudentsController::class, 'filter'])->name('students.filter');//filter option
+
+
 Route::get('/courses', function() {
     return 'Kursliste folgt';
 })->name('courses.index');
