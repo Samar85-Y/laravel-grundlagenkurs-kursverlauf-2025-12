@@ -179,3 +179,151 @@ Darstellung:
 * Hinweis, falls keine Bücher existieren
 
 ---
+# LibraryManager – Aufgabenstellung Tag 5 (Laravel-Kurs)
+
+Heute baust Du Extras ein: API-Controller, Pagination, einfache Suche und ein wenig Layout-Feinschliff.
+
+---
+
+## Übung 23: API-Controller für Books
+
+**Datei**: `app/Http/Controllers/Api/BookApiController.php`
+
+Methoden:
+
+* `index()` → alle Bücher
+* `show(Book $book)`
+* `store(Request $request)`
+* `update(Request $request, Book $book)`
+* `destroy(Book $book)`
+
+Alle Rückgaben im Format:
+
+```json
+{
+  "success": true,
+  "data": ...
+}
+```
+
+---
+
+## Übung 24: API-Routen
+
+**Datei**: `routes/api.php`
+
+```bash
+GET    /api/books
+GET    /api/books/{book}
+POST   /api/books
+PUT    /api/books/{book}
+DELETE /api/books/{book}
+```
+
+---
+
+## Übung 25: Einheitliche API-Response
+
+Anweisung:
+
+* Erfolg: `{ success: true, data: ... }`
+* Fehler: `{ success: false, errors: [...] }`
+* Statuscodes korrekt setzen (201 bei create, 404 bei Fehlzugriff etc.)
+
+---
+
+## Zusatz (optional)
+
+### 1. Pagination einbauen
+
+Im `BookController` in der `index`-Methode anstelle von `Book::all()`:
+
+```php
+$books = Book::orderBy('title')->paginate(5);
+
+return view('books', ['books' => $books]);
+```
+
+In `resources/views/books.blade.php` unter der Liste:
+
+```blade
+{{ $books->links() }}
+```
+
+---
+
+### 2. Einfache Suche nach Titel oder Autor
+
+#### Route anpassen
+
+Die vorhandene `/books`-Route bleibt, wird aber um Suchlogik ergänzt (nur im Controller ändern).
+
+#### Controller anpassen
+
+In der `index`-Methode:
+
+```php
+public function index(Request $request)
+{
+    $query = Book::query();
+
+    if ($request->filled('q')) {
+        $q = $request->input('q');
+
+        $query->where(function ($sub) use ($q) {
+            $sub->where('title', 'like', '%' . $q . '%')
+                ->orWhere('author', 'like', '%' . $q . '%');
+        });
+    }
+
+    $books = $query->orderBy('title')->paginate(5)->withQueryString();
+
+    return view('books', [
+        'books' => $books,
+        'q' => $request->input('q')
+    ]);
+}
+```
+
+#### Suchformular in der View
+
+Oben in `resources/views/books.blade.php`:
+
+```blade
+<form action="/books" method="GET">
+    <input
+        type="text"
+        name="q"
+        placeholder="Suche nach Titel oder Autor"
+        value="{{ $q ?? '' }}"
+    >
+    <button type="submit">Suchen</button>
+</form>
+```
+
+---
+
+### 3. Layout-Feinschliff
+
+* Überschrift über die Liste setzen, z. B.:
+
+  ```blade
+  <h1>LibraryManager – Bücherliste</h1>
+  ```
+
+* Die Ausgaben der Bücher in eine ungeordnete Liste packen:
+
+  ```blade
+  <ul>
+      @foreach ($books as $book)
+          <li>
+              {{ $book->title }} – {{ $book->author }} ({{ $book->year }})
+              <!-- Links für Bearbeiten/Löschen bleiben erhalten -->
+          </li>
+      @endforeach
+  </ul>
+  ```
+
+* Optional: Einfache CSS-Klassen hinzufügen (z. B. in einer gemeinsamen Layout-Datei oder direkt mit Klassenattributen).
+
+---

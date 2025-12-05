@@ -28,10 +28,15 @@ Route::get('/books/{book}', [BookListController::class, 'show'])
 Route::get('/books/{book}/edit', [BookListController::class, 'edit'])
     ->name('books.edit');
 
-Route::put('/students/{book}', [BookListController::class, 'update'])
+Route::put('/books/{book}', [BookListController::class, 'update'])
     ->name('books.update');
 
 Route::delete('/books/{book}', [BookListController::class, 'destroy'])
     ->name('books.destroy');
+
+
+Route::get('/books/filter', [BookController::class, 'filter'])
+    ->name('books.filter');
+
 
 Route::resource('books', BookController::class);

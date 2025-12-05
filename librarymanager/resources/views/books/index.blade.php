@@ -5,13 +5,18 @@
 @section('content')
 
 <h2>Bücherliste</h2>
+
+{{-- SEARCH FORM --}}
+<form action="{{ route('books.filter') }}" method="GET">
+    <input type="text" name="q" placeholder="Suche nach Titel oder Autor" value="{{ $q ?? '' }}">
+    <button type="submit">Suchen</button>
+</form>
+
 <p><a href="{{ route('books.create') }}">Neuen Buch anlegen</a></p>
 
 @if($books->isEmpty())
-
     <p>Es sind noch keine Buch vorhanden.</p>
-    @else
-    
+@else
 <table>
     <thead>
         <tr>
@@ -34,17 +39,17 @@
             <td>{{ $b->published_year }}</td>
             <td>{{ $b->category ?? '-' }}</td>
             <td>
-                <a href="/books/{{ $b->id }}/edit">Bearbeiten</a>
-                    <form action="/books/{{ $b->id }}" method="post">
-                         @csrf
-                         @method('DELETE')
-                            <input type="hidden" name="book" value="{{ $b->id }}">
-                            <button type="submit">Löschen</button>
-                    </form>
+                <a href="{{ route('books.edit', $b) }}">Bearbeiten</a><br>
+
+                <form action="{{ route('books.destroy', $b) }}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Löschen</button><br>
+                    <a class="btn btn-primary" href="{{ route('books.show', $b) }}">Anzeigen</a><br>
+                </form>
             </td>
         </tr>
         @endforeach
-
     </tbody>
 </table>
 @endif
