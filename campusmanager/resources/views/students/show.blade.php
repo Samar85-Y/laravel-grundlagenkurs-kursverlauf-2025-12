@@ -29,16 +29,35 @@
                 @endforeach
             </p>
         </div>
-
-    </div>
-    <p>
-        {{ $student->firstname }} {{ $student->lastname }}:<br>
-        <a class="btn btn-primary" href="{{ route('students.edit', $student) }}">ändern</a>
-    <form action="{{ route('students.destroy', $student) }}" method="post">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="btn btn-danger">Löschen</button>
-    </form>
-    </p>
+        
+        <div>
+            <h3>Anzahl Studierender im gleichen Haputkurses:</h3>
+            <p>
+                <strong>{{ $student->mainCourse?->students->count() ?? 0 }}</strong> Studierenden belegt denselben Haputkurs: <br>
+                <strong>{{ $student->mainCourse?->name }}</strong>
+            </p>
+        </div>
+           
+        <div>
+             <h3>Statistikblock</h3>
+            <p>
+                <strong>Anzahl aller belegter Kurse:</strong> {{ $student->courses->count() }}
+            </p>
+            @if(!$student->mainCourse)
+            <p>
+              Es ist kein Hauptkurs hinterlegt!
+            </p>
+            @endif
+           
+        </div>
+        <p>
+            {{ $student->firstname }} {{ $student->lastname }}:<br>
+            <a class="btn btn-primary" href="{{ route('students.edit', $student) }}">ändern</a>
+        <form action="{{ route('students.destroy', $student) }}" method="post">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Löschen</button>
+        </form>
+        </p>
 
 @endsection
