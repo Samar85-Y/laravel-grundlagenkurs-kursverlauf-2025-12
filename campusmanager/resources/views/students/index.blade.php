@@ -34,10 +34,10 @@
                         <td>{{ $s->email }}</td>
                         <td>
                             <p>
-                                <a class="btn btn-primary" href="/students/{{ $s->id }}">Anzeigen</a>
-                                <a class="btn btn-primary" href="/students/{{ $s->id }}/edit">Bearbeiten</a>
+                                <a class="btn btn-primary" href="{{ route('students.show', $s) }}">Anzeigen</a>
+                                <a class="btn btn-primary" href="{{ route('students.edit', $s) }}">Bearbeiten</a>
                             </p>
-                            <form action="/students/{{ $s->id }}" method="post">
+                            <form action="{{ route('students.destroy', $s) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger" type="submit">Löschen</button>

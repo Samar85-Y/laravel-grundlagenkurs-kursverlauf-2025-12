@@ -6,16 +6,6 @@
 
 <h2>Nach Kurs filtern</h2>
 
-
-        
-            <!--<option value="">-- Bitte Kurs auswählen --</option>
-
-            <option value="PHP-Grundlagen" {{ request('course') == 'PHP-Grundlagen' ? 'selected' : '' }}>PHP-Grundlagen</option>
-            <option value="Web Development mit JavaScript" {{ request('course') == 'WebDevelopment-1' ? 'selected' : '' }}>Web Development mit JavaScrip</option>
-            <option value="Web Development mit HTML und CSS" {{ request('course') == 'WebDevelopment-2' ? 'selected' : '' }}>Web Development mit HTML und CSS</option>
-            <option value="Frontend Development" {{ request('course') == 'FrontendDevelopment' ? 'selected' : '' }}>Frontend Development</option>
-            -->
-
 <form action="{{ route('students.filter') }}" method="GET">
     <label for="course_id">Kurs auswählen:</label>
     <select name="course_id" id="course_id" required>

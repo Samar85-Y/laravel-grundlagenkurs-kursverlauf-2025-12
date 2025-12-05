@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\Course;
 use Illuminate\Http\Request;
 
+
 class StudentsController extends Controller
 {
     public function index() {
@@ -38,6 +39,7 @@ class StudentsController extends Controller
     }
     
     public function show(Student $student){
+
         $courses = Course::orderBy('name')->get();
 
         return view('students.show', [
@@ -87,19 +89,22 @@ class StudentsController extends Controller
             ->with('success', 'Der Student wurde gelöscht');
     }
 
-   public function filter(Request $request)
+    public function filter(Request $request)
 {
-    $query = Student::with(['mainCourse', 'courses']);
+    $courses = Course::orderBy('name')->get();
+    $students = Student::query();
 
+    // Filtern: alle Studenten, die diesen Kurs belegt haben
     if ($request->filled('course_id')) {
-        $query->whereHas('courses', function ($q) use ($request) {
-            $q->where('id', $request->course_id);
+        $students->whereHas('courses', function ($query) use ($request) {
+            $query->where('course_id', $request->course_id);
         });
     }
 
-    $students = $query->orderBy('lastname')->get();
-
-    $courses = Course::orderBy('name')->get();
+    $students = $students->with(['mainCourse', 'courses'])
+                         ->orderBy('lastname')
+                         ->orderBy('firstname')
+                         ->get();
 
     return view('students.filter', compact('students', 'courses'));
 }

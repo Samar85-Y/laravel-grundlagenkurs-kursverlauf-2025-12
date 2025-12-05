@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Student extends Model
 {
     use HasFactory;
+
     protected $fillable=[
         'firstname',
         'lastname',
@@ -16,6 +17,18 @@ class Student extends Model
         'matriculation_number',
         'main_course_id',
     ];
+
+    /**
+     * Falls der zugehörige Tabellen-Name der Datenbank nicht den Laravel-Konventionen genügt, kann hier der abweichende Tabellen-Name genutzt werden.
+     * 
+     * (
+     * Laravel-Konvention:
+     * DB-Tabellenname: Kleinschreibung im Plural z.B. students
+     * Model-Klassen-Bezeichner: Großschreibung, Singular, z.B. Student
+     * )
+     * 
+     */
+    // protected $table = 'anderer_tabellenname';
 
     public function mainCourse() {
         // Ein Student hat gehört zu einem Kurs

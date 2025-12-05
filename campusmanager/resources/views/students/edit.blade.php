@@ -7,7 +7,7 @@
 
     <x-flash />
     
-    <form action="/students/{{ $student->id }}" method="post" novalidate>
+    <form action="{{ route('students.update', $student) }}" method="post" novalidate>
         @csrf
         @method('PUT')
 
